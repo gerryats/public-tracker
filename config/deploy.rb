@@ -167,7 +167,7 @@ end
 desc "Deploys the current version to the server."
 task :deploy => :environment do
   to :before_hook do
-    # queue "bundle install"
+    queue "bundle install"
     # Put things to run locally before ssh
   end
   deploy do

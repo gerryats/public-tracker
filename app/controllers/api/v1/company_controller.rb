@@ -4,7 +4,7 @@ module Api
       skip_before_action :verify_authenticity_token
       def create
         @company = Company.where(owner_email_id: params[:owner_email_id])[0]
-
+        # raise @company.inspect
         if @company.present?
           if @company.company_name != params[:company_name]
             render status: 200, json:{
@@ -14,8 +14,10 @@ module Api
           else
             @validity = @company.validity
             @created_at = @company.created_at
-            @valid_until = @created.to_i +  @validity * 24 * 60 * 60
-            if Time.now.to_i < @valid_until
+            @create_int = @created_at.to_i
+            # @validity_int = @validity * 24 * 60 * 60
+            @valid_until = @validity * 24 * 60 * 60 + @create_int
+            if Time.now.to_i > @valid_until
               render status: 200, json: {
                                     error_code: 2,
                                     message: "Your validity is over. Please contact Admin.",

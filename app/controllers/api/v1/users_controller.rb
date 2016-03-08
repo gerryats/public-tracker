@@ -8,7 +8,6 @@ module Api
             render status: 201, json: {
                                   error_code: 0,
                                   success: true,
-                                  already_user: [],
                                   message: "Account created successfully."
                               }
           else
