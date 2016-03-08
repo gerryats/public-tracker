@@ -5,6 +5,7 @@ source 'https://rubygems.org'
 gem 'mysql2', '~> 0.3.18'
 gem 'devise'
 gem 'unicorn'
+gem 'json', '~> 1.8.3'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.2.3'
 # Use sqlite3 as the database for Active Record
