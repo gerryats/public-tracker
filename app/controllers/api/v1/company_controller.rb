@@ -15,7 +15,6 @@ module Api
             @validity = @company.validity
             @created_at = @company.created_at
             @create_int = @created_at.to_i
-            # @validity_int = @validity * 24 * 60 * 60
             @valid_until = @validity * 24 * 60 * 60 + @create_int
             if Time.now.to_i > @valid_until
               render status: 200, json: {

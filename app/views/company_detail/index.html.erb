@@ -8,13 +8,12 @@
       <p></p>
       <table class="table table-bordered" border="1" width="100%" style="border-collapse: collapse;">
         <thead style="background-color: #b9c9fe; border-top: 4px solid #aabcfe; border-bottom: 1px solid #fff;">
-        <tr>
+        <tr style="text-align: center">
           <th>User Name</th>
           <th>Company Name</th>
+          <th style="width: 15%;">Trade Show Name</th>
           <th>User Email</th>
           <th style="width: 20%;">Image</th>
-
-          <th style="width: 15%;">Trade Show Name</th>
           <th>Comments</th>
 
         </tr>
@@ -24,9 +23,9 @@
             <tr>
               <td><%= c.first_name %> <%= c.last_name %></td>
               <td><%= c.company_name %></td>
-              <td><%= c.email %></td>
-              <td><%= c.image_url %></td>
               <td><%= c.trade_show_name %></td>
+              <td><%= c.email %></td>
+              <td><img src=<%= c.image_url %> width="360px" height="120px"></img></td>
               <td><%= c.comment %></td>
         <% end %>
         </tr>
