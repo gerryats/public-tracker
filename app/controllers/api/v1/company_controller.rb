@@ -60,7 +60,7 @@ module Api
 
               if Time.now.to_i > @valid_until
 
-                if @company.License_state == 'activated'
+                if @company.License_state.eql? 'activated'
                   @company.update_attribute(:License_state, "deactivate")
                 end
                 render status: 200, json: {
@@ -71,7 +71,7 @@ module Api
                                       valid_until: @valid_until
                                   }
               else
-                if @company.License_state == 'deactivate'
+                if @company.License_state.eql? 'deactivate'
                    @company.update_attribute(:License_state, "activated")
                    render status: 200, json:{
                                          ##for direct login##
