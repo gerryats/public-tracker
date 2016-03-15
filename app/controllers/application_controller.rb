@@ -22,9 +22,7 @@ class ApplicationController < ActionController::Base
         render status: 200, json: {
                               error_code: 2,
                               message: "Your validity is over. Please contact Admin.",
-                              company: @company,
-                              validity: @validity,
-                              valid_until: @valid_until
+                              company: @company
                           }
         end
     end
