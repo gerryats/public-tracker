@@ -54,6 +54,12 @@ module Api
           if @company.present?
 
               @validity = @company.License_valid_days
+
+              # license renewed date will be updated when company's user license has actually expired expired or on avail of fresh license from web app
+              if @company.License_activation_date.nil? or @company.License_activation_date.to_i < @company.License_renewed_date.to_i
+                @company.update_attribute(:License_activation_date, Time.now)
+              end
+
               @activated_at = @company.License_activation_date
               @create_int = @activated_at.to_i
               @valid_until = @validity * 24 * 60 * 60 + @create_int
@@ -64,7 +70,7 @@ module Api
                   @company.update_attribute(:License_state, "deactivate")
                 end
                 render status: 200, json: {
-                                      error_code: 2,
+                                      error_code: 3,
                                       message: "Your validity is over. Please contact Admin.",
                                       company: @company,
                                       validity: @validity,
@@ -82,7 +88,7 @@ module Api
                                      }
                 else
                   render status: 200, json:{
-                                        error_code:0,
+                                        error_code: 1,
                                         succuss: true,
                                         #message: "Account is already activated.",
                                         company: @company.as_json(:except => [:created_at, :updated_at, :comment])
@@ -92,7 +98,7 @@ module Api
 
           else
             render status: 200, json: {
-                                  error_code: 1,
+                                  error_code: 4,
                                   success: true,
                                   message: "This License key does not exist. Please enter valid license key."
                               }
@@ -125,7 +131,7 @@ module Api
 
         begin
           license = rand(36**6).to_s(36)
-        end while Company.find_by_license(license) != nil
+        end while not Company.find_by_license(license).nil?
 
         Validlicense.create(:generated_licenses=>license).save
 
