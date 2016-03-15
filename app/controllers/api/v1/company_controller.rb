@@ -56,8 +56,9 @@ module Api
               @validity = @company.License_valid_days
 
               # license renewed date will be updated when company's user license has actually expired expired or on avail of fresh license from web app
-              if @company.License_activation_date.nil? or @company.License_activation_date.to_i < @company.License_renewed_date.to_i
-                @company.update_attribute(:License_activation_date, Time.now)
+              if @company.License_activation_date.nil? or (@company.License_activation_date.to_i < @company.License_renewed_date.to_i and @company.License_state.eql? 'deactivate')
+                @company.update_attribute("License_activation_date", Time.now)
+                @company.save
               end
 
               @activated_at = @company.License_activation_date
@@ -67,18 +68,16 @@ module Api
               if Time.now.to_i > @valid_until
 
                 if @company.License_state.eql? 'activated'
-                  @company.update_attribute(:License_state, "deactivate")
+                  @company.update({License_state: "deactivate"})
                 end
                 render status: 200, json: {
                                       error_code: 3,
                                       message: "Your validity is over. Please contact Admin.",
-                                      company: @company,
-                                      validity: @validity,
-                                      valid_until: @valid_until
+                                      company: @company
                                   }
               else
                 if @company.License_state.eql? 'deactivate'
-                   @company.update_attribute(:License_state, "activated")
+                  @company.update({License_state: "activated"})
                    render status: 200, json:{
                                          ##for direct login##
                                          error_code:0,
