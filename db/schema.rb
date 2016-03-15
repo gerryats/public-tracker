@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160307103732) do
+ActiveRecord::Schema.define(version: 20160315061153) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -32,13 +32,26 @@ ActiveRecord::Schema.define(version: 20160307103732) do
   add_index "admins", ["reset_password_token"], name: "index_admins_on_reset_password_token", unique: true, using: :btree
 
   create_table "companies", force: :cascade do |t|
-    t.string   "company_name",    limit: 255
+    t.string   "company_name",            limit: 255
+    t.string   "trade_show_name",         limit: 255
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
+    t.string   "comment",                 limit: 255
+    t.string   "owner_email_id",          limit: 255
+    t.integer  "validity",                limit: 4
+    t.string   "license",                 limit: 255
+    t.datetime "License_creation_date"
+    t.datetime "License_activation_date"
+    t.datetime "License_renewed_date"
+    t.integer  "License_valid_days",      limit: 4
+    t.string   "License_state",           limit: 255
+  end
+
+  create_table "tradeshows", force: :cascade do |t|
     t.string   "trade_show_name", limit: 255
+    t.integer  "company_id",      limit: 4
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
-    t.string   "comment",         limit: 255
-    t.string   "owner_email_id",  limit: 255
-    t.integer  "validity",        limit: 4
   end
 
   create_table "users", force: :cascade do |t|
@@ -49,6 +62,13 @@ ActiveRecord::Schema.define(version: 20160307103732) do
     t.datetime "updated_at",                 null: false
     t.string   "image_url",      limit: 255
     t.string   "owner_email_id", limit: 255
+    t.integer  "trade_show_id",  limit: 4
+  end
+
+  create_table "validlicenses", force: :cascade do |t|
+    t.string   "generated_licenses", limit: 255
+    t.datetime "created_at",                     null: false
+    t.datetime "updated_at",                     null: false
   end
 
 end

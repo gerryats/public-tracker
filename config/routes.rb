@@ -33,6 +33,7 @@ Rails.application.routes.draw do
       post 'company/add_comment' => 'company#add_comment'
       post 'users/create' => 'users#create'
       get 'company/get_comment' => 'company#get_comment'
+      get 'company/generate_license' => 'company#generate_license'
       put 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
       patch 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
     end
