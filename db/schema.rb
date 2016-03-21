@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160317102029) do
+ActiveRecord::Schema.define(version: 20160321125039) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -40,7 +40,6 @@ ActiveRecord::Schema.define(version: 20160317102029) do
     t.datetime "updated_at",                                      null: false
     t.string   "comment",                 limit: 255
     t.string   "owner_email_id",          limit: 255
-    t.integer  "validity",                limit: 4
     t.string   "license",                 limit: 255
     t.datetime "License_creation_date"
     t.datetime "License_activation_date"
@@ -98,6 +97,7 @@ ActiveRecord::Schema.define(version: 20160317102029) do
     t.string   "generated_licenses", limit: 255
     t.datetime "created_at",                     null: false
     t.datetime "updated_at",                     null: false
+    t.string   "owner_email",        limit: 255
   end
 
 end

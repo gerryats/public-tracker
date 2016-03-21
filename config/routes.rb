@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   # You can have the root of your site routed with "root"
   root 'company_detail#index'
 
+
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
 
@@ -27,14 +28,19 @@ Rails.application.routes.draw do
   #       get 'sold'
   #     end
   #   end
+
+  get 'company_detail/generate_license_for_Company_user' => 'company_detail#generate_license_for_Company_user'
+
   namespace :api do
     namespace :v1 do
+      resources :company
+
       post 'company/create' => 'company#create'
       # post 'company/create_comment' => 'company#create_comment'
       post 'company/add_comment' => 'company#add_comment'
       post 'users/create' => 'users#create'
       get 'company/get_comment' => 'company#get_comment'
-      get 'company/generate_license' => 'company#generate_license'
+
       put 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
       patch 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
     end

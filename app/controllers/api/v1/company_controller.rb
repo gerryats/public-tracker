@@ -3,6 +3,7 @@ module Api
     class CompanyController < ApplicationController
       skip_before_action :verify_authenticity_token
       before_action :Check_Validity, except: :create
+
       # def create
       #   @company = Company.where(owner_email_id: params[:owner_email_id])[0]
       #   # raise @company.inspect
@@ -127,21 +128,8 @@ module Api
 
       end
 
-      def generate_license
 
-        license = rand(36**6).to_s(36)
 
-        begin
-          license = rand(36**6).to_s(36)
-        end while not Company.find_by_license(license).nil?
-
-        Validlicense.create(:generated_licenses=>license).save
-
-        render status: 200, json:{
-                              success: true,
-                              License: license
-                          }
-      end
 
       def get_comment
 

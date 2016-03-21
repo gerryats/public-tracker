@@ -15,15 +15,39 @@ class CompanyDetailController < ApplicationController
 
        @company = Company.where(owner_email_id: current_admin.email)[0]
 
+      puts @company
+
        if @company.is_admin.eql? 1
 
        else
 
           @users = User.where(owner_email_id: current_admin.email)
-         puts @users
+
+
+
        end
     else
       redirect_to admin_session_path
     end
   end
+
+  def generate_license_for_Company_user
+
+    license = rand(36**6).to_s(36)
+
+    begin
+      license = rand(36**6).to_s(36)
+    end while not Company.find_by_license(license).nil?
+
+    Validlicense.create(:generated_licenses=>license, :owner_email=>params[:email]).save
+
+    @company = Company.where(owner_email_id: params[:email])[0]
+
+    @company.update_attribute(:license, license)
+
+    flash['alert'] = "Your License Number: #{license}"
+    redirect_to root_path
+
+  end
+
 end
