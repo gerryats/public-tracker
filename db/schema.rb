@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160315114142) do
+ActiveRecord::Schema.define(version: 20160317102029) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -26,6 +26,8 @@ ActiveRecord::Schema.define(version: 20160315114142) do
     t.string   "last_sign_in_ip",        limit: 255
     t.datetime "created_at",                                      null: false
     t.datetime "updated_at",                                      null: false
+    t.string   "username",               limit: 255
+    t.integer  "isadmin",                limit: 4,   default: 0
   end
 
   add_index "admins", ["email"], name: "index_admins_on_email", unique: true, using: :btree
@@ -34,8 +36,8 @@ ActiveRecord::Schema.define(version: 20160315114142) do
   create_table "companies", force: :cascade do |t|
     t.string   "company_name",            limit: 255
     t.string   "trade_show_name",         limit: 255
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at",                                      null: false
+    t.datetime "updated_at",                                      null: false
     t.string   "comment",                 limit: 255
     t.string   "owner_email_id",          limit: 255
     t.integer  "validity",                limit: 4
@@ -45,6 +47,32 @@ ActiveRecord::Schema.define(version: 20160315114142) do
     t.datetime "License_renewed_date"
     t.integer  "License_valid_days",      limit: 4
     t.string   "License_state",           limit: 255
+    t.integer  "is_admin",                limit: 4,   default: 0
+  end
+
+  create_table "order_transactions", force: :cascade do |t|
+    t.integer  "order_id",      limit: 4
+    t.string   "action",        limit: 255
+    t.integer  "amount",        limit: 4
+    t.boolean  "success"
+    t.string   "authorization", limit: 255
+    t.string   "message",       limit: 255
+    t.text     "params",        limit: 65535
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+  end
+
+  create_table "orders", force: :cascade do |t|
+    t.string   "new",             limit: 255
+    t.integer  "cart_id",         limit: 4
+    t.string   "ip_address",      limit: 255
+    t.string   "first_name",      limit: 255
+    t.string   "last_name",       limit: 255
+    t.string   "card_brand",      limit: 255
+    t.date     "card_expires"
+    t.datetime "created_at",                  null: false
+    t.datetime "updated_at",                  null: false
+    t.date     "card_expires_on"
   end
 
   create_table "tradeshows", force: :cascade do |t|
@@ -63,7 +91,7 @@ ActiveRecord::Schema.define(version: 20160315114142) do
     t.string   "image_url",      limit: 255
     t.string   "owner_email_id", limit: 255
     t.integer  "trade_show_id",  limit: 4
-    t.string "username", limit: 255
+    t.string   "username",       limit: 255
   end
 
   create_table "validlicenses", force: :cascade do |t|

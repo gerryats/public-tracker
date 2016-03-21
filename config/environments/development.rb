@@ -36,6 +36,15 @@ Rails.application.configure do
   # Raises helpful error messages.
   config.assets.raise_runtime_errors = true
 
+  config.after_initialize do
+    ActiveMerchant::Billing::Base.mode = :test
+    ::GATEWAY = ActiveMerchant::Billing::PaypalGateway.new(
+        :login => "bhupinder-facilitator_api1.apptreetechnologies.com",
+        :password => "N73UX8U2WHWYGLHG",
+        :signature => "AFcWxV21C7fd0v3bYYYRCpSSRl31AYl247K7UET.psIm.NTRy.a9Wizp"
+    )
+  end
+
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
 end

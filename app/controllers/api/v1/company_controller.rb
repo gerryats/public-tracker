@@ -80,14 +80,14 @@ module Api
                   @company.update({License_state: "activated"})
                    render status: 200, json:{
                                          ##for direct login##
-                                         error_code:0,
+                                         error_code:1,
                                          succuss: true,
                                          message: "Account activated successfully.",
                                          company: @company.as_json(:except => [:created_at, :updated_at, :comment])
                                      }
                 else
                   render status: 200, json:{
-                                        error_code: 1,
+                                        error_code: 0,
                                         succuss: true,
                                         #message: "Account is already activated.",
                                         company: @company.as_json(:except => [:created_at, :updated_at, :comment])
@@ -153,6 +153,7 @@ module Api
           render status: 402, json:{
                                 error_code: 1,
                                 success: false,
+                                message: 'no comment',
                                 comment: []
                             }
         end

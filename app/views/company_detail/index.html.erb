@@ -1,21 +1,51 @@
 <div class="container">
   <div class="row">
+
+    <div class="actions">
+      <%= link_to "Renew License", new_order_path, :style => "color:black", :class => "btn btn-link" %>
+    </div>
+
+    <div class="dropdown">
+      <select id="sel_value" onchange="selected_days();">
+        <option value="Select days" >Select days</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+        <option value="13">13</option>
+        <option value="14">14</option>
+        <option value="15">15</option>
+        <option value="16">16</option>
+        <option value="17">17</option>
+        <option value="18">18</option>
+        <option value="19">19</option>
+        <option value="20">20</option>
+      </select>
+      <input type="text" style="" id="gen_value">
+    </div>
+
   <h1>
-    <span style="color:blue; text-decoration: underline;">Company Details</span>
+    <span style="color:blue; text-decoration: underline;">User Details</span>
   </h1>
   <% if @users.blank? %>
       <p style="text-align: center; font-size: 18px;">No record found.</p>
   <% else %>
+
       <p></p>
       <table class="table table-bordered" border="1" width="100%" style="border-collapse: collapse;">
         <thead style="background-color: #b9c9fe; border-top: 4px solid #aabcfe; border-bottom: 1px solid #fff;">
         <tr style="text-align: center">
           <th>User Name</th>
-          <th>Company Name</th>
-          <th style="width: 15%;">Trade Show Name</th>
           <th>User Email</th>
           <th style="width: 20%;">Image</th>
-          <th>Comments</th>
 
         </tr>
         </thead>
@@ -23,11 +53,8 @@
         <%- @users.each do |c| %>
             <tr>
               <td><%= c.first_name %> <%= c.last_name %></td>
-              <td><%= c.company_name %></td>
-              <td><%= c.trade_show_name %></td>
               <td><%= c.email %></td>
-              <td><img src=<%= c.image_url %> width="360px" height="200px"></img></td>
-              <td><%= c.comment %></td>
+              <td><img src=<%= c.image_url %> width="360px" height="200px"></td>
         <% end %>
         </tr>
         </tbody>
@@ -36,3 +63,17 @@
 </div>
 </div>
 </div>
+
+<script type="text/javascript">
+
+  function selected_days(){
+
+      var data_value = document.getElementById('sel_value').value;
+
+      if (data_value != "Select days")
+      {
+          document.getElementById("gen_value").value = data_value;
+      }
+
+  }
+</script>
