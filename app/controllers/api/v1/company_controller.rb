@@ -66,6 +66,9 @@ module Api
               @create_int = @activated_at.to_i
               @valid_until = @validity * 24 * 60 * 60 + @create_int
 
+              puts Time.now.to_i
+              puts @valid_until
+
               if Time.now.to_i > @valid_until
 
                 if @company.License_state.eql? 'activated'

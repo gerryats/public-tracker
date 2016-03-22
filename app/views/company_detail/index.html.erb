@@ -9,10 +9,6 @@
 
 
         <% elsif @company.License_state.eql? "activated" %>
-
-            <%=  javascript_include_tag 'days_diff();' %>
-
-
           <div id="showdays">
             </div>
 
@@ -22,7 +18,7 @@
 
     </div>
 
-   <% if not @company.License_state.eql? "activated" or @company.license.nil?  %>
+   <% if @company.License_state.eql? "deactivate" or @company.license.nil?  %>
 
         <div class="dropdown">
           <select id="sel_value" onchange="selected_days();">
@@ -86,7 +82,9 @@
 </div>
 
 <script type="text/javascript">
-
+$(document).ready(function(){
+    days_difference(<%= @company.License_activation_date.present? ? @company.License_activation_date : Time.now.strftime('%Y-%m-%d')  %>,<%= @company.License_valid_days.present? ? @company.License_valid_days : 5%>);
+});
   function selected_days(){
 
       var data_value = document.getElementById('sel_value').value;
@@ -103,11 +101,17 @@
       $("#showdays").html("qwerfaes");
 
   }
-
-  function days_diff(){
-
-      alert('sdafasdfa');
-
-  }
+function days_diff() {
+//    $.ajax({
+//        url:,
+//        type: 'GET',
+//        dataType: 'json',
+//        contentType: 'application/json',
+//        data:{},
+//        success: function (result) {
+//            $('#showdays').html("<label>" + result + "</label>");
+//        }
+//    })
+}
 
 </script>
