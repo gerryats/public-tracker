@@ -3,26 +3,83 @@
 
     <div class="actions">
 
+      <% if @company.is_admin.eql? 1 %>
+
+          <%= form_tag('/company_detail/save_license_cost', method: "get") do %>
+              <%= label(:post, :License_cost) %><br />
+              <%= text_field(:cost, :license_key_cost) %><br />
+              <%= submit_tag("save") %>
+          <% end %>
+
+          <h1>
+            <span style="color:blue; text-decoration: underline;">Company Details</span>
+          </h1>
+          <% if @allcompaniesdata.blank? %>
+              <p style="text-align: center; font-size: 18px;">No record found.</p>
+          <% else %>
+
+              <p></p>
+              <table class="table table-bordered" border="1" width="100%" style="border-collapse: collapse;">
+                <thead style="background-color: #b9c9fe; border-top: 4px solid #aabcfe; border-bottom: 1px solid #fff;">
+                <tr style="text-align: center">
+                  <th>Company Name</th>
+                  <th>Company Email</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <%- @allcompaniesdata.each do |c| %>
+                    <tr>
+                      <td> <%= link_to c.company_name , show_users_showusers_path(:email => c.owner_email_id) %></a> </td>
+                      <td><%= c.owner_email_id %></td>
+                <% end %>
+                </tr>
+                </tbody>
+              </table>
+          <% end %>
+
+
+      <% else  %>
+
         <% if @company.license.nil? %>
 
-          <%= link_to 'Generate License', company_detail_generate_license_for_Company_user_path(email: @company.owner_email_id),:style => "color:black", :class => "btn btn-link"  %>
+          <%= link_to 'Generate License', "#" ,:style => "color:black", :class => "btn btn-link", :id => 'sel_values' , :onclick => 'check_value();' %>
 
+        <% else  %>
 
-        <% elsif @company.License_state.eql? "activated" %>
-          <div id="showdays">
-            </div>
+          <% if @company.License_activation_date.nil? %>
 
-        <% else %>
-            <%= link_to "Renew License", new_order_path, :style => "color:black", :class => "btn btn-link" %>
+              <%= link_to "Please activate your license" %>
+
+          <% else %>
+
+              <% if @company.License_state.eql? "deactivate"  and @company.License_renewed_date.to_i < @company.License_activation_date.to_i %>
+
+                  <%= link_to 'Renew License', company_detail_generate_license_for_Company_user_path ,:style => "color:black", :class => "btn btn-link" ,:onclick => 'check_value();' %>
+
+              <% elsif  @company.License_state.eql? "deactivate" %>
+                  <%= link_to "Please activate your license" %>
+
+              <% else %>
+
+                  <div id="showdays">
+                  </div>
+
+              <% end %>
+
+          <% end %>
+
         <% end %>
+
+
 
     </div>
 
-   <% if @company.License_state.eql? "deactivate" or @company.license.nil?  %>
+   <% if ( @company.License_state.eql? "deactivate" and @company.License_renewed_date.to_i < @company.License_activation_date.to_i ) or @company.license.nil?  %>
 
         <div class="dropdown">
           <select id="sel_value" onchange="selected_days();">
-            <option value="Select days" >Select days</option>
+            <option value="select days" >Select days</option>
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
@@ -44,7 +101,8 @@
             <option value="19">19</option>
             <option value="20">20</option>
           </select>
-          <input type="text" style="" id="gen_value">
+          <label text="Total_cost">Total cost</label>
+          <input  type="text" style="" id="gen_value" required="required" />
         </div>
 
     <% end %>
@@ -76,42 +134,91 @@
         </tr>
         </tbody>
       </table>
-  <% end %>
+        <% end %>
+      <% end %>
 </div>
 </div>
 </div>
 
 <script type="text/javascript">
-$(document).ready(function(){
-    days_difference(<%= @company.License_activation_date.present? ? @company.License_activation_date : Time.now.strftime('%Y-%m-%d')  %>,<%= @company.License_valid_days.present? ? @company.License_valid_days : 5%>);
-});
+//$(document).ready(function(){
+
+//});
   function selected_days(){
 
+//      debugger;
       var data_value = document.getElementById('sel_value').value;
 
-      if (data_value != "Select days")
+      if (data_value >= 1 )
       {
-          document.getElementById("gen_value").value = data_value;
+//          var response = $.ajax({
+//              url:'/company_detail/get_license_cost',
+//              type: 'GET',
+//              async: true,
+//              success: function(result){
+//                    return result;
+//              },
+//              error: function(){
+//                  alert("Ooop!! Something went wrong. HeHe!!!");
+//              }
+//          });
+//
+//          var total_Cost = parseInt(JSON.parse(response.responseText)['cost']);
+          var total_Cost = 100;
+          var price = data_value * total_Cost;
+          $("#gen_value").val(price);
+          $("#sel_values").attr("href", "/orders/new?days="+data_value+"&cost="+price);
+
       }
-
   }
 
-  function days_difference(License_activation_date,License_valid_days){
 
-      $("#showdays").html("qwerfaes");
-
-  }
-function days_diff() {
-//    $.ajax({
-//        url:,
-//        type: 'GET',
-//        dataType: 'json',
-//        contentType: 'application/json',
-//        data:{},
-//        success: function (result) {
-//            $('#showdays').html("<label>" + result + "</label>");
-//        }
-//    })
+function days_diff(email_id) {
+    $.ajax({
+        url:'/api/v1/company/get_valid_days_left',
+        type: 'POST',
+        dataType: 'json',
+        contentType: 'application/json',
+        data:JSON.stringify({email:email_id}),
+        success: function (result) {
+            var result = result.days_left;
+            $('#showdays').html("<label>" + result + "   days validity left" + "</label>");
+        },
+        error: function(){
+            alert("error");
+        }
+    })
 }
 
+function check_value(){
+
+//    debugger;
+    var select_days = $("#sel_value").val();
+//    var total_Cost = $("#gen_value").val();
+////    alert("Please select days");
+//    $("#sel_values").attr("href", "/orders/new?days="+select_days+"&cost="+total_Cost);
+    if (select_days >= 1) {
+
+//        window.location = "http://"+window.location.host+"/orders/new";//.json?days="+select_days+"&cost="+total_Cost;
+
+//        $.ajax({
+//            url:'/orders/new',
+//            type: 'GET',
+//            dataType: 'json',
+//            contentType: 'application/json',
+//            data:JSON.stringify({days:select_days, :total_Cost}),
+//            success: function (result) {
+//                alert(JSON.parse(result)['']);
+//            },
+//            error: function(){
+//                alert("error");
+//            }
+//        })
+    }
+    else
+    {
+        alert("Please select days");
+    }
+
+}
 </script>

@@ -1,8 +1,10 @@
+include ActionView::Helpers::DateHelper
+
 module Api
   module V1
     class CompanyController < ApplicationController
       skip_before_action :verify_authenticity_token
-      before_action :Check_Validity, except: :create
+      before_action :Check_Validity, except: [:create , :get_valid_days_left ,:get_license_cost]
 
       # def create
       #   @company = Company.where(owner_email_id: params[:owner_email_id])[0]
@@ -49,6 +51,41 @@ module Api
       #   end
       # end
 
+      def get_valid_days_left
+
+        @company = Company.where(owner_email_id: params[:email])[0]
+        @activation_date = @company.License_activation_date
+        @validity = @company.License_valid_days
+        @expiry_date = (@activation_date.to_i + (@validity * (24*60*60)))
+        # @expiry_dateintimeformat = @activation_date + @validity
+        @days_left = nil
+        if Time.now.utc.to_i >= @expiry_date
+          @days_left = 0
+        else
+          @days_left = ((@expiry_date - Time.now.utc.to_i)/((24 * 60 * 60).to_f)).round(2).ceil
+
+          # @validity_left = Time.at(((@expiry_date - Time.now.utc.to_i)/((24 * 60 * 60)))
+
+          # @validity_left = distance_of_time_in_words(@expiry_dateintimeformat, Time.now.utc,include_seconds: true) + "left"
+
+        end
+
+        render status: 200, json:{
+                   success: true,
+                   days_left: @days_left
+                          }
+      end
+
+      def get_license_cost
+
+        @company = Company.where(is_admin:1)[0]
+
+        render status: 200, json:{
+                              success: true,
+                              cost: @company.cost
+                          }
+      end
+
       def create
           @company = Company.where(license: params[:license])[0]
 
@@ -66,8 +103,11 @@ module Api
               @create_int = @activated_at.to_i
               @valid_until = @validity * 24 * 60 * 60 + @create_int
 
-              puts Time.now.to_i
-              puts @valid_until
+              # puts @validity
+              puts Time.now.utc.to_i
+              puts @company.License_activation_date.to_i
+              puts Time.now.utc.to_datetime
+              puts @company.License_activation_date.to_datetime
 
               if Time.now.to_i > @valid_until
 

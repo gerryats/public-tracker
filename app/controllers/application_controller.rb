@@ -25,7 +25,7 @@ class ApplicationController < ActionController::Base
                               message: "Your validity is over. Please contact Admin.",
                               company: @company
                           }
-        end
+      end
     end
   end
 

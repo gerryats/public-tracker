@@ -14,8 +14,11 @@ class Order < ActiveRecord::Base
   end
 
   def price_in_cents
-    # (cart.total_price*100).round
-    100
+
+    # @company = Company.where(owner_email_id: current_admin.email)[0]
+    #
+    # retrun @company.cost
+100
   end
 
 

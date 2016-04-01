@@ -17,6 +17,8 @@ class CompanyDetailController < ApplicationController
 
        if @company.is_admin.eql? 1
 
+          @allcompaniesdata = Company.all
+
        else
 
           @users = User.where(owner_email_id: current_admin.email)
@@ -27,22 +29,52 @@ class CompanyDetailController < ApplicationController
     end
   end
 
+  def save_license_cost
+
+    @updateLicense_cost = Company.where(owner_email_id: current_admin.email)[0]
+
+    @updateLicense_cost.update_attribute(:cost, params[:cost][:license_key_cost])
+
+    @updateLicense_cost.save
+
+    redirect_to root_path
+
+  end
+
+  def get_license_cost
+
+    @company = Company.where(is_admin:1)[0]
+
+    render status: 200, json:{
+                          success: true,
+                          cost: @company.cost
+                      }
+  end
+
   def generate_license_for_Company_user
 
-    license = rand(36**6).to_s(36)
+    # @company = Company.where(owner_email_id: current_admin.email)[0]
+    #
+    # puts "sssssssssssssssss"
+    # puts params
+    #
+    # @company.update_attribute(:License_valid_days ,params[:days])
+    # @company.update_attribute(:cost ,params[:cost])
 
-    begin
-      license = rand(36**6).to_s(36)
-    end while not Company.find_by_license(license).nil?
-
-    Validlicense.create(:generated_licenses=>license, :owner_email=>params[:email]).save
-
-    @company = Company.where(owner_email_id: params[:email])[0]
-
-    @company.update_attribute(:license, license)
-
-    flash['alert'] = "Your License Number: #{license}"
-    redirect_to root_path
+  #   license = rand(36**6).to_s(36)
+  #
+  #   begin
+  #     license = rand(36**6).to_s(36)
+  #   end while not Company.find_by_license(license).nil?
+  #
+  #   Validlicense.create(:generated_licenses=>license, :owner_email=>params[:email]).save
+  #
+  #   @company = Company.where(owner_email_id: params[:email])[0]
+  #
+  #   @company.update_attribute(:license, license)
+  #
+  #   flash['alert'] = "Your License Number: #{license}"
+     redirect_to root_path
 
   end
 

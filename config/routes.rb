@@ -29,18 +29,26 @@ Rails.application.routes.draw do
   #     end
   #   end
 
+  get 'show_users/showusers' => 'show_users#showusers'
+
   get 'company_detail/generate_license_for_Company_user' => 'company_detail#generate_license_for_Company_user'
+
+  get 'company_detail/save_license_cost' => 'company_detail#save_license_cost'
+
+  get 'company_detail/get_license_cost' => 'company_detail#get_license_cost'
 
   namespace :api do
     namespace :v1 do
       resources :company
 
+
+      post 'company/get_valid_days_left' => 'company#get_valid_days_left'
       post 'company/create' => 'company#create'
       # post 'company/create_comment' => 'company#create_comment'
       post 'company/add_comment' => 'company#add_comment'
       post 'users/create' => 'users#create'
       get 'company/get_comment' => 'company#get_comment'
-
+     
       put 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
       patch 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
     end

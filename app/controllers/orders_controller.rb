@@ -1,3 +1,5 @@
+require 'time'
+
 class OrdersController < ApplicationController
   before_action :set_order, only: [:show, :edit, :update, :destroy]
 
@@ -14,7 +16,15 @@ class OrdersController < ApplicationController
 
   # GET /orders/new
   def new
+
     @order = Order.new
+    @order.total_cost = params[:cost]
+    @order.total_days = params[:days]
+    # @order.selected_date
+    @company = Company.where(owner_email_id: current_admin.email)[0]
+
+    @company.update_attribute(:License_valid_days ,params[:days])
+    @company.update_attribute(:cost ,params[:cost])
 
   end
 
@@ -32,9 +42,48 @@ class OrdersController < ApplicationController
 
     if @order.save
       if @order.purchase
-        render :action => "success"
+
+        if not Company.where(owner_email_id: current_admin.email)[0].license.nil?
+
+          @company = Company.where(owner_email_id: current_admin.email)[0]
+
+          @company.update_attributes(License_renewed_date: Time.now, License_valid_days:@company.License_valid_days,License_state: "deactivate" )
+
+          @lic = LicenseRecord.new(email:current_admin.email,license:@company.license ,cost:@company.cost)
+
+          @lic.save
+
+          flash['alert'] = "Your License renewed: #{@company.license}"
+          redirect_to root_path
+
+        else
+
+          license = rand(36**6).to_s(36)
+
+          begin
+            license = rand(36**6).to_s(36)
+          end while not Company.find_by_license(license).nil?
+
+          Validlicense.create(:generated_licenses=>license, :owner_email=>current_admin.email).save
+
+          @company = Company.where(owner_email_id: current_admin.email)[0]
+
+          @company.update_attribute(:license, license)
+
+          @company.update_attributes(License_creation_date: Time.now, License_renewed_date: Time.now, License_valid_days:@company.License_valid_days,License_state: "deactivate" )
+
+          @lic = LicenseRecord.new(email:current_admin.email,license:@company.license ,cost:@company.cost)
+
+          @lic.save
+
+          flash['alert'] = "Your License Number: #{license}"
+          redirect_to root_path
+
+        end
+
       else
-        render :action => "failure"
+        flash['alert'] = "Transaction failure"
+        redirect_to root_path
       end
     else
       render :action => 'new'

@@ -47,6 +47,18 @@
       <%= f.date_select :card_expires_on, :discard_day => true, :start_year => Date.today.year, :end_year => (Date.today.year+10), :add_month_numbers => true %>
     </p>
   </div>
+    <div class="field">
+      <p>
+        <%= f.label :selected_Days %> : <%= @order.total_days %> <br />
+
+      </p>
+    </div>
+    <div class="field">
+      <p>
+        <%= f.label :total_Cost  %>  : <%= @order.total_cost%> <br />
+
+      </p>
+    </div>
 
   <div class="actions">
     <%= f.submit %>

@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="row">
+
+    <div class="actions">
+
+  <h1>
+    <span style="color:blue; text-decoration: underline;">User Details</span>
+  </h1>
+  <% if @users.blank? %>
+      <p style="text-align: center; font-size: 18px;">No record found.</p>
+  <% else %>
+
+      <p></p>
+      <table class="table table-bordered" border="1" width="100%" style="border-collapse: collapse;">
+        <thead style="background-color: #b9c9fe; border-top: 4px solid #aabcfe; border-bottom: 1px solid #fff;">
+        <tr style="text-align: center">
+          <th>User Name</th>
+          <th>User Email</th>
+          <th style="width: 20%;">Image</th>
+
+        </tr>
+        </thead>
+        <tbody>
+        <%- @users.each do |c| %>
+            <tr>
+              <td><%= c.first_name %> <%= c.last_name %></td>
+              <td><%= c.email %></td>
+              <td><img src=<%= c.image_url %> width="360px" height="200px"></td>
+        <% end %>
+        </tr>
+        </tbody>
+      </table>
+     
+      <% end %>
+</div>
+</div>
+</div>
+

@@ -19,7 +19,7 @@ module Api
           end
         end
 
-
+    
 
       private
       def user_params

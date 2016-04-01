@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160321125039) do
+ActiveRecord::Schema.define(version: 20160401131827) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -47,6 +47,21 @@ ActiveRecord::Schema.define(version: 20160321125039) do
     t.integer  "License_valid_days",      limit: 4
     t.string   "License_state",           limit: 255
     t.integer  "is_admin",                limit: 4,   default: 0
+    t.integer  "cost",                    limit: 4
+  end
+
+  create_table "license_costs", force: :cascade do |t|
+    t.integer  "cost",       limit: 4
+    t.datetime "created_at",           null: false
+    t.datetime "updated_at",           null: false
+  end
+
+  create_table "license_records", force: :cascade do |t|
+    t.string   "email",      limit: 255
+    t.string   "license",    limit: 255
+    t.integer  "cost",       limit: 4
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "order_transactions", force: :cascade do |t|
@@ -72,6 +87,8 @@ ActiveRecord::Schema.define(version: 20160321125039) do
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
     t.date     "card_expires_on"
+    t.integer  "total_cost",      limit: 4
+    t.integer  "total_days",      limit: 4
   end
 
   create_table "tradeshows", force: :cascade do |t|
