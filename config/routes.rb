@@ -1,6 +1,8 @@
 Rails.application.routes.draw do
   resources :orders
-  devise_for :admins
+  devise_for :admins do
+    get '/admins/sign_out' => 'devise/sessions#destroy'
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
