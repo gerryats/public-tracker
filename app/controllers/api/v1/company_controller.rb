@@ -92,7 +92,7 @@ module Api
           if @company.present?
 
               @validity = @company.License_valid_days
-
+              @company.update_attributes(company_name: params[:company_name], trade_show_name: params[:trade_show_name])
               # license renewed date will be updated when company's user license has actually expired expired or on avail of fresh license from web app
               if @company.License_activation_date.nil? or (@company.License_activation_date.to_i < @company.License_renewed_date.to_i and @company.License_state.eql? 'deactivate')
                 @company.update_attribute("License_activation_date", Time.now)
@@ -114,6 +114,7 @@ module Api
                 if @company.License_state.eql? 'activated'
                   @company.update({License_state: "deactivate"})
 
+
                 end
                 render status: 200, json: {
                                       error_code: 3,
@@ -123,6 +124,7 @@ module Api
               else
                 if @company.License_state.eql? 'deactivate'
                   @company.update({License_state: "activated"})
+
 
                    render status: 200, json:{
                                          ##for direct login##
