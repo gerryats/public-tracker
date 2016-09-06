@@ -11,6 +11,7 @@ require 'mina/git'
 #   branch       - Branch name to deploy. (needed by mina/git)
 set :application, "public_tracker.com"
 set :domain, "112.196.19.154"
+set :port, '8979'
 set :user, "ubuntu"
 set :deploy_to, "/var/www/#{application}"
 set :releases_path, 'releases'
