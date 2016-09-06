@@ -179,7 +179,7 @@ task :deploy => :environment do
     invoke :'bundle:install'
     invoke :'rails:db_migrate'
     invoke :'rails:assets_precompile'
-    invoke :'deploy:cleanup'
+    # invoke :'deploy:cleanup'
 
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
@@ -193,7 +193,7 @@ task :deploy => :environment do
              echo "-----> Restarting Unicorn."
              sudo /etc/init.d/unicorn_public_tracker_com reload
              echo "-----> done."]
-      invoke :'deploy:cleanup'
+      # invoke :'deploy:cleanup'
     end
   end
 end
