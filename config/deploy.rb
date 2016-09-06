@@ -193,6 +193,7 @@ task :deploy => :environment do
              echo "-----> Restarting Unicorn."
              sudo /etc/init.d/unicorn_public_tracker_com reload
              echo "-----> done."]
+      invoke :'deploy:cleanup'
     end
   end
 end
