@@ -10,7 +10,7 @@ require 'mina/git'
 #   repository   - Git repo to clone from. (needed by mina/git)
 #   branch       - Branch name to deploy. (needed by mina/git)
 set :application, "public_tracker.com"
-set :domain, "23.23.217.43"
+set :domain, "112.196.19.154"
 set :user, "ubuntu"
 set :deploy_to, "/var/www/#{application}"
 set :releases_path, 'releases'

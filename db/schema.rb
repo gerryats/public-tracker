@@ -36,8 +36,8 @@ ActiveRecord::Schema.define(version: 20160401131827) do
   create_table "companies", force: :cascade do |t|
     t.string   "company_name",            limit: 255
     t.string   "trade_show_name",         limit: 255
-    t.datetime "created_at",                                      null: false
-    t.datetime "updated_at",                                      null: false
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
     t.string   "comment",                 limit: 255
     t.string   "owner_email_id",          limit: 255
     t.string   "license",                 limit: 255
@@ -45,15 +45,9 @@ ActiveRecord::Schema.define(version: 20160401131827) do
     t.datetime "License_activation_date"
     t.datetime "License_renewed_date"
     t.integer  "License_valid_days",      limit: 4
-    t.string   "License_state",           limit: 255
+    t.string   "License_state",           limit: 255, default: "deactivate"
     t.integer  "is_admin",                limit: 4,   default: 0
     t.integer  "cost",                    limit: 4
-  end
-
-  create_table "license_costs", force: :cascade do |t|
-    t.integer  "cost",       limit: 4
-    t.datetime "created_at",           null: false
-    t.datetime "updated_at",           null: false
   end
 
   create_table "license_records", force: :cascade do |t|
