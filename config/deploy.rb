@@ -186,8 +186,7 @@ task :deploy => :environment do
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
       queue %[
              echo "-----> Restarting Nginx Server."
-             cd #{deploy_to}/#{current_path}/
-             RAILS_ENV=production bundle exec rails s &
+             sudo service nginx restart
              echo "-----> done."]
       queue "sudo chmod 0775 #{deploy_to}/current/config/unicorn_init.sh"
       queue! %[
