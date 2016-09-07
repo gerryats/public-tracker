@@ -154,18 +154,18 @@ module Api
 
       def add_comment
         @company = Company.where(id: params[:company_id])[0]
-        # raise @company.inspect
+        raise @company.inspect
         if @company.present?
-          @validity = @company.License_valid_days
-          @activated_at = @company.License_activation_date
-          @create_int = @activated_at.to_i
-          @valid_until = @validity * 24 * 60 * 60 + @create_int
-          if Time.now.to_i > @valid_until
-            render status: 200, json: {
-                                  error_code: 3,
-                                  message: "Your validity is over. Please contact Admin."
-                              }
-          else                    
+          # @validity = @company.License_valid_days
+          # @activated_at = @company.License_activation_date
+          # @create_int = @activated_at.to_i
+          # @valid_until = @validity * 24 * 60 * 60 + @create_int
+          # if Time.now.to_i > @valid_until
+          #   render status: 200, json: {
+          #                         error_code: 3,
+          #                         message: "Your validity is over. Please contact Admin."
+          #                     }
+          # else                    
             @company.update_attributes(comment: comment_params[:comment])
             @company.save
             render status: 201, json:{
@@ -173,7 +173,7 @@ module Api
                                   success: true,
                                   message: 'Comment added successfully.'
                               }
-          end                    
+          # end                    
         else
           render status: 402, json:{
                                 error_code: 1,
