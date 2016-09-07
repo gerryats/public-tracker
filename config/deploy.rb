@@ -191,8 +191,8 @@ task :deploy => :environment do
       queue "sudo chmod 0775 #{deploy_to}/current/config/unicorn_init.sh"
       queue! %[
              echo "-----> Restarting Unicorn."
-             sudo /etc/init.d/unicorn_public_tracker_com stop
-             sudo /etc/init.d/unicorn_public_tracker_com start
+             sudo /etc/init.d/unicorn_public_tracker_com stop 
+             sudo /etc/init.d/unicorn_public_tracker_com start 2&>1 &
              echo "-----> done."]
       # invoke :'deploy:cleanup'
     end
