@@ -153,14 +153,13 @@ module Api
       end
 
       def add_comment
-        @company = Company.where(owner_email_id: params[:owner_email_id])[0]
+        @company = Company.where(id: params[:company_id])[0]
         # raise @company.inspect
         if @company.present?
           @validity = @company.License_valid_days
           @activated_at = @company.License_activation_date
           @create_int = @activated_at.to_i
           @valid_until = @validity * 24 * 60 * 60 + @create_int
-          # raise Time.now.to_i.inspect
           if Time.now.to_i > @valid_until
             render status: 200, json: {
                                   error_code: 3,
@@ -185,8 +184,12 @@ module Api
 
       end
 
+
+
+
       def get_comment
-        @comment = Company.where(owner_email_id: params[:owner_email_id])[0]
+        @comment = Company.where(id: params[:company_id])[0]
+       
         if @comment.present?
           render status: 201, json:{
                                 error_code: 0,

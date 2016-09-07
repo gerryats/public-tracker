@@ -41,7 +41,7 @@ Rails.application.routes.draw do
 
   namespace :api do
     namespace :v1 do
-      resources :company
+      # resources :company
 
 
       post 'company/get_valid_days_left' => 'company#get_valid_days_left'
