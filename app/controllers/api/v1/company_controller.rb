@@ -92,7 +92,7 @@ module Api
           if @company.present?
 
               @validity = @company.License_valid_days
-              @company.update_attributes(company_name: params[:company_name], trade_show_name: params[:trade_show_name])
+              #@company.update_attributes(company_name: params[:company_name], trade_show_name: params[:trade_show_name])
               # license renewed date will be updated when company's user license has actually expired expired or on avail of fresh license from web app
               if @company.License_activation_date.nil? or (@company.License_activation_date.to_i < @company.License_renewed_date.to_i and @company.License_state.eql? 'deactivate')
                 @company.update_attribute("License_activation_date", Time.now)
@@ -156,13 +156,25 @@ module Api
         @company = Company.where(owner_email_id: params[:owner_email_id])[0]
         # raise @company.inspect
         if @company.present?
-          @company.update_attributes(comment: comment_params[:comment])
-          @company.save
-          render status: 201, json:{
-                                error_code: 0,
-                                success: true,
-                                message: 'Comment added successfully.'
-                            }
+          @validity = @company.License_valid_days
+          @activated_at = @company.License_activation_date
+          @create_int = @activated_at.to_i
+          @valid_until = @validity * 24 * 60 * 60 + @create_int
+          # raise Time.now.to_i.inspect
+          if Time.now.to_i > @valid_until
+            render status: 200, json: {
+                                  error_code: 3,
+                                  message: "Your validity is over. Please contact Admin."
+                              }
+          else                    
+            @company.update_attributes(comment: comment_params[:comment])
+            @company.save
+            render status: 201, json:{
+                                  error_code: 0,
+                                  success: true,
+                                  message: 'Comment added successfully.'
+                              }
+          end                    
         else
           render status: 402, json:{
                                 error_code: 1,
@@ -173,11 +185,7 @@ module Api
 
       end
 
-
-
-
       def get_comment
-
         @comment = Company.where(owner_email_id: params[:owner_email_id])[0]
         if @comment.present?
           render status: 201, json:{
