@@ -38,6 +38,7 @@ Rails.application.routes.draw do
   get 'company_detail/save_license_cost' => 'company_detail#save_license_cost'
 
   get 'company_detail/get_license_cost' => 'company_detail#get_license_cost'
+  get 'show_users/license_detail' => 'show_users#license_detail'
 
   namespace :api do
     namespace :v1 do
