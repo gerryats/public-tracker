@@ -6,7 +6,7 @@ TIMEOUT=${TIMEOUT-60}
 APP_ROOT=/var/www/public_tracker.com/current
 APP_SHARED_ROOT=/var/www/public_tracker.com/shared
 PID=$APP_SHARED_ROOT/pids/unicorn.pid
-CMD="cd $APP_ROOT; bundle exec unicorn_rails -p 3000 -E production"
+CMD="cd $APP_ROOT; bundle exec unicorn_rails -p 3001 -E production"
 AS_USER=ubuntu
 set -u
 
