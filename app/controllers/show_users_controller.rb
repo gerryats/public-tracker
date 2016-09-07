@@ -31,7 +31,7 @@ class ShowUsersController < ApplicationController
 
 	      @company.update_attributes(:license => license, :License_valid_days => params[:days], :cost => params[:cost])
 
-	      @company.update_attributes(License_creation_date: Time.now, License_renewed_date: Time.now, License_valid_days:@company.License_valid_days,License_state: "activated", License_activation_date: Time.now )
+	      @company.update_attributes(License_creation_date: Time.now, License_renewed_date: Time.now, License_valid_days:@company.License_valid_days)
 
 	      @lic = LicenseRecord.new(email:current_admin.email,license:@company.license ,cost:@company.cost)
 
