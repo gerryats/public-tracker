@@ -48,9 +48,9 @@ Rails.application.routes.draw do
       post 'company/get_valid_days_left' => 'company#get_valid_days_left'
       post 'company/create' => 'company#create'
       # post 'company/create_comment' => 'company#create_comment'
-      post 'company/add_comment' => 'company#add_comment'
+      post '/add_comment' => 'company#add_comment'
       post 'users/create' => 'users#create'
-      get 'company/get_comment' => 'company#get_comment'
+      get '/get_comment' => 'company#get_comment'
      
       put 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
       patch 'company/comment_update' => 'company#comment_update', :via => [:put, :patch]
