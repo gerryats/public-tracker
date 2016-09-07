@@ -154,7 +154,7 @@ module Api
 
       def add_comment
         @company = Company.where(id: params[:company_id])[0]
-        raise @company.inspect
+        # raise @company.inspect
         if @company.present?
           # @validity = @company.License_valid_days
           # @activated_at = @company.License_activation_date
