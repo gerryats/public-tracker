@@ -14,8 +14,6 @@
   <div class="row">
       <div>
         <ul>
-          <li><%= link_to "License Detail", show_users_license_detail_path%></li>
-          <li><%= link_to "User Detail", show_users_showusers_path%></li>
           <li>
             <% if admin_signed_in? %>
               <p><%= link_to "Logout", destroy_admin_session_path, method: :delete, :class => 'logout' %></p>
@@ -48,7 +46,7 @@ ul{
         text-align: center;
         height: 25px;
         border-radius: 5px;
-        margin-top: -4%;
+        
     }
     #admin_username{
         width: 40%;
