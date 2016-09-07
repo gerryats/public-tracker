@@ -4,7 +4,7 @@ module Api
   module V1
     class CompanyController < ApplicationController
       skip_before_action :verify_authenticity_token
-      before_action :Check_Validity, except: [:create , :get_valid_days_left ,:get_license_cost]
+      before_action except: [:create , :get_valid_days_left ,:get_license_cost]
 
       # def create
       #   @company = Company.where(owner_email_id: params[:owner_email_id])[0]
@@ -189,7 +189,7 @@ module Api
 
       def get_comment
         @comment = Company.where(id: params[:company_id])[0]
-       
+
         if @comment.present?
           render status: 201, json:{
                                 error_code: 0,
