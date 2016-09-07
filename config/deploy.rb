@@ -184,14 +184,13 @@ task :deploy => :environment do
     to :launch do
       queue "mkdir -p #{deploy_to}/#{current_path}/tmp/"
       queue "touch #{deploy_to}/#{current_path}/tmp/restart.txt"
-      queue %[
-             echo "-----> Restarting Nginx Server."
-             sudo service nginx restart
-             echo "-----> done."]
-      queue "sudo chmod 0775 #{deploy_to}/current/config/unicorn_init.sh"
+      # queue %[
+      #        echo "-----> Restarting Nginx Server."
+      #        sudo service nginx restart
+      #        echo "-----> done."]
+      # queue "sudo chmod 0775 #{deploy_to}/current/config/unicorn_init.sh"
       queue! %[
              echo "-----> Restarting Unicorn."
-             sudo /etc/init.d/unicorn_public_tracker_com stop 
              sudo /etc/init.d/unicorn_public_tracker_com start 2&>1 &
              echo "-----> done."]
       # invoke :'deploy:cleanup'
