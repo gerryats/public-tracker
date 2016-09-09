@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160401131827) do
+ActiveRecord::Schema.define(version: 20160909123814) do
 
   create_table "admins", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
@@ -93,15 +93,16 @@ ActiveRecord::Schema.define(version: 20160401131827) do
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "first_name",     limit: 255
-    t.string   "last_name",      limit: 255
-    t.string   "email",          limit: 255
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.string   "image_url",      limit: 255
-    t.string   "owner_email_id", limit: 255
-    t.integer  "trade_show_id",  limit: 4
-    t.string   "username",       limit: 255
+    t.string   "first_name",       limit: 255
+    t.string   "last_name",        limit: 255
+    t.string   "email",            limit: 255
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
+    t.string   "image_url",        limit: 255
+    t.string   "owner_email_id",   limit: 255
+    t.integer  "trade_show_id",    limit: 4
+    t.string   "username",         limit: 255
+    t.string   "user_profile_pic", limit: 255
   end
 
   create_table "validlicenses", force: :cascade do |t|

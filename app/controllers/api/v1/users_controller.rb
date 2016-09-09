@@ -3,7 +3,7 @@ module Api
     class UsersController < ApplicationController
       skip_before_action :verify_authenticity_token
       def create
-          @user = User.new(email: params[:email], first_name: params[:first_name], last_name: params[:last_name], owner_email_id: params[:owner_email_id], image_url: params[:image_url])
+          @user = User.new(email: params[:email], first_name: params[:first_name], last_name: params[:last_name], owner_email_id: params[:owner_email_id], image_url: params[:image_url], user_profile_pic: params[:user_profile_pic])
           if @user.save
             render status: 201, json: {
                                   error_code: 0,
@@ -23,7 +23,7 @@ module Api
 
       private
       def user_params
-        params.permit(:id, :email, :first_name, :last_name, :owner_email_id, :image_url)
+        params.permit(:id, :email, :first_name, :last_name, :owner_email_id, :image_url, :user_profile_pic)
       end
 
     end

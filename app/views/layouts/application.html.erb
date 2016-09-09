@@ -13,13 +13,10 @@
 <div class="container">
   <div class="row">
       <div>
-        <ul>
-          <li>
-            <% if admin_signed_in? %>
-              <p><%= link_to "Logout", destroy_admin_session_path, method: :delete, :class => 'logout' %></p>
-            <% end %>
-          </li>
-        </ul>
+        <% if admin_signed_in? %>
+          <p><%= link_to "Logout", destroy_admin_session_path, method: :get, :class => 'logout' %></p>
+        <% end %>
+      
       </div>      
     
   </div>
@@ -31,6 +28,36 @@
 </body>
 </html>
 <style>
+.password_complete{
+  margin-left: -26%;
+}
+.password_confirm{
+  margin-left: -21%;
+}
+.submit-btn{
+    background: skyblue;
+    padding: 7px;
+    border: 1px solid gray;
+    border-radius: 5px;
+    width: 8%;
+    font-size: 16px;
+}
+.shared_links{
+  font-size: 14px;
+    margin-left: 30%;
+}
+.new_admin{
+  text-align: center;
+}
+.password{
+  margin-left: -34%;
+}
+.email{
+  margin-left: -37%;
+}
+.remember_me{
+  margin-left: -29% !important;
+}
 .menubar{
   list-style-type: none;
   padding: 0;
@@ -63,17 +90,29 @@
     #admin_username{
         width: 40%;
         margin-bottom: 2%;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 3px;
     }
     #admin_email{
         width: 40%;
         margin-bottom: 2%;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 3px;
     }
     #admin_password{
         width: 40%;
         margin-bottom: 2%;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 3px;
     }
     #admin_password_confirmation{
         width: 40%;
+        padding: 5px;
+        border: 1px solid gray;
+        border-radius: 3px;
     }
     .actions{
         margin-top: 2%;
